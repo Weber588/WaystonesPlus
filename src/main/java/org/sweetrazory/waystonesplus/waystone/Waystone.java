@@ -1,9 +1,6 @@
 package org.sweetrazory.waystonesplus.waystone;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -61,6 +58,13 @@ public class Waystone {
             removeWaystone();
             setType(newType);
             spawnStructure();
+            DB.updateWaystone(this);
+        }
+    }
+
+    public void changeName(String newName) {
+        if (newName != null) {
+            setName(newName);
             DB.updateWaystone(this);
         }
     }
@@ -138,7 +142,7 @@ public class Waystone {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = ChatColor.translateAlternateColorCodes('&', "&r&6" + name);
     }
 
     public Location getLocation() {

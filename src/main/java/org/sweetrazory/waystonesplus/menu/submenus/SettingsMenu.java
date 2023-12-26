@@ -3,6 +3,7 @@ package org.sweetrazory.waystonesplus.menu.submenus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.sweetrazory.waystonesplus.eventhandlers.WaystoneRename;
 import org.sweetrazory.waystonesplus.memoryhandlers.LangManager;
 import org.sweetrazory.waystonesplus.menu.Menu;
 import org.sweetrazory.waystonesplus.menu.MenuManager;
@@ -20,6 +21,10 @@ public class SettingsMenu extends Menu {
 
     @Override
     public void initializeItems(Player player, Waystone waystone) {
+        ItemStack changeName = new ItemBuilder(Material.OAK_SIGN)
+                .persistentData("action", "changeName")
+                .displayName(ColoredText.getText("&6Change Name"))
+                .build();
         ItemStack visibilityMenu = new ItemBuilder(Material.SPYGLASS)
                 .persistentData("action", "visibilitySettings")
                 .displayName(ColoredText.getText("&6Change Visibility"))
@@ -44,9 +49,12 @@ public class SettingsMenu extends Menu {
                 .displayName(" ")
                 .build();
         inventory.setContents(Arrays.asList(filler, filler, filler, filler, filler, filler, filler, filler, filler,
-                filler, filler, null, null, null, null, null, filler, filler,
+                filler, null, null, null, null, null, null, filler, filler,
                 filler, filler, filler, filler, filler, filler, filler, filler, filler).toArray(new ItemStack[0]));
 
+        if (player.isOp() || player.hasPermission("waystonesplus.rename")) {
+            setItem(10, changeName);
+        }
         if (player.isOp() || player.hasPermission("waystonesplus.menu.visibility")) {
             setItem(11, visibilityMenu);
         }
@@ -94,6 +102,10 @@ public class SettingsMenu extends Menu {
                 case "iconSettings":
                     Menu iconMenu = new IconMenu();
                     MenuManager.openMenu(player, iconMenu, waystone);
+                    break;
+                case "changeName":
+                    MenuManager.closeMenu(player); // Close any existing menu for the player
+                    WaystoneRename.readyChatRename(player, waystone);
                     break;
             }
         }

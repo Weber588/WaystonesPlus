@@ -39,6 +39,9 @@ public class LangManager {
     public static String newWaystoneSubtitle;
     public static String invalidItem;
     public static String invalidVisibility;
+    public static String typeNewNamePrompt;
+    public static String newNameChatTimeout;
+    public static String nameChangeConfirm;
 
     public static void loadConfig() {
         File configFile = new File(WaystonesPlus.getInstance().getDataFolder().getAbsolutePath() + File.separator + "localization.yml");
@@ -77,6 +80,9 @@ public class LangManager {
             invalidVisibility = (String) config.getOrDefault("invalid-visibility", "&cInvalid visibility. Valid options: public, private.");
             newWaystoneTitle = (String) config.getOrDefault("new-waystone-title", "&8New Waystone:");
             newWaystoneSubtitle = (String) config.getOrDefault("new-waystone-subtitle", "&6%waystone_name%");
+            typeNewNamePrompt = (String) config.getOrDefault("type-new-name-prompt", "&6Type the new name of your waystone in chat!");
+            newNameChatTimeout = (String) config.getOrDefault("new-name-chat-timeout", "&cNo chat message sent after 30 seconds. Cancelled rename.");
+            nameChangeConfirm = (String) config.getOrDefault("name-change-confirm", "&6Name changed! New name: &r%waystone_name%");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

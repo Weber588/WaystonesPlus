@@ -8,6 +8,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.LootGenerateEvent;
@@ -71,7 +72,12 @@ public class EventController implements Listener {
 
     @EventHandler
     public void anvilRenameEvent(PrepareAnvilEvent event) {
-        new WaystoneRename(event);
+        WaystoneRename.anvilRename(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void chatRenameEvent(AsyncPlayerChatEvent event) {
+        WaystoneRename.changeNameChat(event);
     }
 
     @EventHandler

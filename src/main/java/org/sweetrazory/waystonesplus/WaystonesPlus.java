@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.sweetrazory.waystonesplus.memoryhandlers.*;
 import org.sweetrazory.waystonesplus.menu.MenuListener;
 import org.sweetrazory.waystonesplus.menu.MenuManager;
@@ -119,6 +120,16 @@ public class WaystonesPlus extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int runTaskLater(Runnable task, long delayInTicks) {
+        return new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                task.run();
+            }
+        }.runTaskLater(this, delayInTicks).getTaskId();
     }
 }
 
