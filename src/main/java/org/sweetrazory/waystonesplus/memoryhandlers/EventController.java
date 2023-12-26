@@ -37,12 +37,14 @@ public class EventController implements Listener {
         new WaystoneCraft(event);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWaystoneInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Waystone waystone = waystoneInteract.getInteractedWaystone(event);
 
         if (waystone != null) {
+            // Cancel event to allow users to right click waystones with blocks without placing them
+            event.setCancelled(true);
             TeleportMenu teleportMenu = new TeleportMenu(0);
             MenuManager.openMenu(player, teleportMenu, waystone);
         }
