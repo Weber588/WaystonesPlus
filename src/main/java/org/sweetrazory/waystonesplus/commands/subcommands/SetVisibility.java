@@ -28,10 +28,12 @@ public class SetVisibility implements SubCommand {
             ItemStack waystoneItem = player.getItemInHand();
             if (!waystoneItem.getType().equals(Material.PLAYER_HEAD) || !ItemUtils.hasPersistentData(waystoneItem, "waystoneVisibility")) {
                 player.sendMessage(ColoredText.getText(LangManager.noItemHeld));
+                return;
             }
 
             if (args.length != 2) {
                 player.sendMessage(ColoredText.getText(LangManager.waystoneVisibilityMissing));
+                return;
             }
 
             ItemMeta waystoneItemMeta = waystoneItem.getItemMeta();
