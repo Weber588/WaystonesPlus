@@ -78,9 +78,17 @@ public class WaystonePlace implements Listener {
 
                 if (waystoneType != null) {
                     waystoneName = !waystoneName.equals("New Waystone") ? waystoneName : "New Waystone";
-                    addWaystoneAndNotify(!waystoneName.equals("New Waystone") ? waystoneName : "New Waystone", player, waystoneType, placedBlockLocation, Visibility.fromString(waystoneVisibilityValue), Particle.ENCHANTMENT_TABLE);
+                    Waystone waystone = addWaystoneAndNotify(!waystoneName.equals("New Waystone") ? waystoneName : "New Waystone", player, waystoneType, placedBlockLocation, Visibility.fromString(waystoneVisibilityValue), Particle.ENCHANTMENT_TABLE);
                     if (ConfigManager.enableNotification) {
-                        player.sendTitle(ColoredText.getText(LangManager.newWaystoneTitle), ColoredText.getText(LangManager.newWaystoneSubtitle.replace("%waystone_name%", waystoneName)), 20, 40, 20);
+                        String title = LangManager.newWaystoneTitle;
+                        String subtitle;
+                        if (waystone.hasDefaultName()) {
+                            subtitle = LangManager.setInitialSubtitlePrompt;
+                        } else {
+                            subtitle = LangManager.newWaystoneSubtitle.replace("%waystone_name%", waystoneName);
+                        }
+
+                        player.sendTitle(ColoredText.getText(title), ColoredText.getText(subtitle), 20, 40, 20);
                     }
 
                 } else {
@@ -97,10 +105,16 @@ public class WaystonePlace implements Listener {
 
     }
 
-    private void addWaystoneAndNotify(String name, Player player, WaystoneType waystoneType, Location location, Visibility visibility, Particle particle) {
+    private Waystone addWaystoneAndNotify(String name, Player player, WaystoneType waystoneType, Location location, Visibility visibility, Particle particle) {
         Waystone waystone = new Waystone(UUID.randomUUID().toString(), name, location, waystoneType.getTypeName(), player.getUniqueId().toString(), particle, visibility, null, waystoneType.getBlocks().get(1).getMaterial());
         waystone.createWaystone();
         DB.insertWaystone(waystone);
+
+        if (waystone.hasDefaultName()) {
+            WaystoneRename.readyChatRename(player, waystone);
+        }
+
+        return waystone;
     }
 
 }

@@ -8,6 +8,7 @@ import org.bukkit.metadata.MetadataValue;
 import org.jetbrains.annotations.Nullable;
 import org.sweetrazory.waystonesplus.WaystonesPlus;
 import org.sweetrazory.waystonesplus.enums.Visibility;
+import org.sweetrazory.waystonesplus.memoryhandlers.LangManager;
 import org.sweetrazory.waystonesplus.memoryhandlers.WaystoneMemory;
 import org.sweetrazory.waystonesplus.types.BlockType;
 import org.sweetrazory.waystonesplus.types.WaystoneType;
@@ -67,6 +68,12 @@ public class Waystone {
             setName(newName);
             DB.updateWaystone(this);
         }
+    }
+
+    public boolean hasDefaultName() {
+        String formattedWaystoneName = ChatColor.translateAlternateColorCodes('&', getName());
+        String formattedDefaultName = ChatColor.translateAlternateColorCodes('&', LangManager.newWaystoneName);
+        return formattedWaystoneName.equalsIgnoreCase(formattedDefaultName);
     }
 
     public Integer[] spawnStructure() {
