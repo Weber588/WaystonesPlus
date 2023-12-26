@@ -69,7 +69,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                     commands.add("rename");
                 }
                 if (player.hasPermission("waystonesplus.command.reload") || player.isOp()) {
-                    commands.add("rename");
+                    commands.add("reload");
                 }
                 StringUtil.copyPartialMatches(args[0], commands, completions);
             } else if (args.length == 2) {
